@@ -4,9 +4,13 @@ FIXME
 
 ## Prerequisites
 
-You will need [Leiningen][] 2.0.0 or above installed.
+Install Homebrew:
 
-[leiningen]: https://github.com/technomancy/leiningen
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+Install Lein
+
+    brew install leinengen
 
 ## Running
 
