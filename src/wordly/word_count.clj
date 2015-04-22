@@ -23,7 +23,8 @@
 ;; NOTES:
 ;; (html-resource (java.io.StringReader. "<html><body><h1></h1></body></html>"))
 
-#_(let [str (-> "http://google.com"
+(defn top-words [url]
+  (let [str (-> url
                 java.net.URL.
                 enlive/html-resource
                 (enlive/select [:body])
@@ -33,7 +34,7 @@
                 texts
                 first
                 )
-        text (as-> str %
+        words (as-> str %
                (string/split % #"\s+")
                (remove string/blank? %)
                (map string/lower-case %)
@@ -43,6 +44,6 @@
                (take 10 %)
                       )
         ]
-    text
+    words
       ;;(string/split #"\w")
-      )
+    ))
