@@ -27,6 +27,7 @@
                 java.net.URL.
                 enlive/html-resource
                 (enlive/select [:body])
+                (enlive/transform [:img] nil)
                 (enlive/transform [:script] nil)
                 (enlive/transform [:style] nil)
                 texts
