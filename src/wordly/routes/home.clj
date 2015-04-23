@@ -35,5 +35,4 @@
 (defroutes home-routes
   (GET "/" [] (home))
   (GET "/word-counts" request (new-word-count request))
-  (POST "/word-counts" request (new-word-count request))
-  )
+  (POST "/word-counts" request (new-word-count request)))
