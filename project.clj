@@ -8,6 +8,7 @@
                  [hiccup "1.0.5"]
                  [ring-server "0.3.1"]
                  [org.clojure/clojure "1.6.0"]
+                 [commons-validator "1.4.1"]
                  ]
   :plugins [[lein-ring "0.8.12"]]
   :ring {:handler wordly.handler/app

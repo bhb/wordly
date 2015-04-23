@@ -6,4 +6,6 @@
     [:head
      [:title "Welcome to wordly"]
      (include-css "/css/screen.css")]
-    [:body body]))
+    [:body
+     [:h1 "Wordly"]
+     body]))
