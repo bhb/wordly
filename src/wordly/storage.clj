@@ -17,3 +17,6 @@
 
 (defn all []
   (vec @store))
+
+(defn init []
+  {})

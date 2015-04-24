@@ -7,6 +7,8 @@
   (:import [java.net URLEncoder])
   )
 
+(defonce STORE (atom nil))
+
 (defn url-encode [str]
   (URLEncoder/encode str "UTF-8"))
 
@@ -102,3 +104,6 @@
   (GET "/word-counts/new" [] (new-word-count))
   (GET "/word-counts" request (create-word-count request)) ;; TODO - replace with /word-counts/id
   (POST "/word-counts" request (create-word-count request)))
+
+(defn init []
+  (storage/init STORE))
