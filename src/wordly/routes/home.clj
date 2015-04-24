@@ -5,11 +5,6 @@
             [wordly.validation :as validation]
             [wordly.views.layout :as layout]))
 
-(defmacro dbg [body]
-  `(let [x# ~body]
-     (println "dbg:" '~body "=" x#)
-          x#))
-
 (defn home []
   (layout/common [:a {:href "/word-counts/new"}
                   "Count words at a URL"
