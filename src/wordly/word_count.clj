@@ -18,9 +18,10 @@
   [nodes]
     (map text nodes))
 
+;; Note: only works for ASCII words
 (defn text->words [text]
-  (->> (string/split text #"\s+")
-       (remove string/blank?)
+  (->> text
+       (re-seq #"\w+")
        (map string/lower-case)))
 
 (defn all-text [resource]
