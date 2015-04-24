@@ -38,12 +38,15 @@
   (is (= [["foo" 2]] (top-words-from-str "Foo foo")))
   (is (= [["hello" 1] ["world" 1]] (top-words-from-str "Hello world!"))))
 
-(defspec check-top-words-from-str
+(deftest test-meaningful-words
+  (is (= [["foo" 1]] (meaningful-words [["and" 2]["foo" 1]]))))
+
+(defspec check-top-words-are-in-order
   1000 ;; the number of iterations for test.check to test
   (prop/for-all [str gen/string-ascii]
                 (let [top-words (top-words-from-str str)
                       occurrences (or (vals top-words) [])]
-                  (and (<= 0 (count top-words) 10)
-                       (=
-                        (reverse (sort occurrences))
-                        occurrences)))))
+                  (=
+                   (reverse (sort occurrences))
+                   occurrences))))
+

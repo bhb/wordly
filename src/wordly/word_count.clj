@@ -46,7 +46,7 @@
        text->words
        frequencies ;; generate an array like [["dog" 2] ["cat" 1]]
        (sort-by occurences-then-word)
-       (take 10)))
+       ))
 
 (defn top-words [resource]
   (->> resource
@@ -58,3 +58,50 @@
       java.net.URL.
       enlive/html-resource
       top-words))
+
+;; My assumption is that "meaningful" means something outside
+;; this (incomplete) list of these common words
+(def non-meaningful-words
+  #{
+    "a"
+    "an"
+    "and"
+    "as"
+    "at"
+    "be"
+    "but"
+    "by"
+    "do"
+    "for"
+    "from"
+    "have"
+    "he"
+    "her"
+    "i"
+    "i'm"
+    "in"
+    "is"
+    "it"
+    "me"
+    "my"
+    "not"
+    "of"
+    "on"
+    "or"
+    "say"
+    "she"
+    "that"
+    "the"
+    "they"
+    "this"
+    "to"
+    "we"
+    "with"
+    "you"
+    })
+
+(defn meaningful-words [frequencies]
+  (remove
+   (fn [[word count]]
+     (contains? non-meaningful-words word))
+   frequencies))

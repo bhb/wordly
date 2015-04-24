@@ -19,7 +19,7 @@
 
 (defn row-data [data]
   (let [[url frequencies] data
-        [top-word occurences] (first frequencies)]
+        [top-word occurences] (first (wc/meaningful-words frequencies))]
     [
      url
      top-word
@@ -37,14 +37,16 @@
     [:th "Word"]
     [:th "Occurences"]
     ]
-   (map row frequencies)
+   (->> frequencies
+        (take 10)
+        (map row))
    ])
 
 (defn urls-table [urls-and-frequencies]
   [:table.table
    [:tr
     [:th "URL"]
-    [:th "Most common word"]
+    [:th "Most common (meaningful) word"]
     [:th "Occurences"]
     [:th "Details"]
     (->> urls-and-frequencies
