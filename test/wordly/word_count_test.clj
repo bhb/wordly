@@ -1,7 +1,11 @@
 (ns wordly.word-count-test
   (:require [wordly.word-count :refer :all]
             [net.cgrand.enlive-html :as enlive]
-            [clojure.test :refer :all]))
+            [clojure.test :refer :all]
+            [clojure.test.check.generators :as gen]
+            [clojure.test.check.properties :as prop]
+            [clojure.test.check.clojure-test :refer [defspec]]
+            ))
 
 ;; Helper function for testing
 (defn top-words-from-html [html]
@@ -33,3 +37,13 @@
   (is (= [["foo" 1]] (top-words-from-str "Foo")))
   (is (= [["foo" 2]] (top-words-from-str "Foo foo")))
   (is (= [["hello" 1] ["world" 1]] (top-words-from-str "Hello world!"))))
+
+(defspec check-top-words-from-str
+  100 ;; the number of iterations for test.check to test
+  (prop/for-all [str gen/string-ascii]
+                (let [top-words (top-words-from-str str)]
+                  (is (<= 0 (count top-words) 10))
+                  (let [occurrences (or (vals top-words) [])]
+                    (is (=
+                         (reverse (sort occurrences))
+                         occurrences))))))
