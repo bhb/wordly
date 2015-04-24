@@ -10,7 +10,7 @@
 
 (defn page-available? [url]
   (-> url
-      (client/get {:throw-exceptions false})
+      (client/head {:throw-exceptions false})
       :status
       (= 200)))
 
