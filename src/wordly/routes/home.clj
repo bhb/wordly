@@ -1,6 +1,7 @@
 (ns wordly.routes.home
   (:require [compojure.core :refer :all]
             [wordly.word-count :as wc]
+            [wordly.storage :as storage]
             [wordly.validation :as validation]
             [wordly.views.layout :as layout]))
 
@@ -48,8 +49,10 @@
     ]))
 
 (defn show-word-count-template [url]
-  (list [:h1 "Words for " url]
-             (table (wc/top-words url))))
+  (let [top-words (or (get storage/get url)
+                      (wc/top-words url))]
+    (list [:h1 "Words for " url]
+          (table top-words))))
 
 (defn new-word-count []
   (layout/common
