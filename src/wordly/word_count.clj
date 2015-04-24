@@ -41,7 +41,6 @@
    ]
   )
 
-;; TODO - generatively test this
 (defn top-words-from-str [str]
   (->> str
        text->words

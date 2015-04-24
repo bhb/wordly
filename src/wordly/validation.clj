@@ -4,7 +4,6 @@
    [clj-http.client :as client])
   (:import [org.apache.commons.validator UrlValidator]))
 
-;; TODO - tests!
 (defn valid-url? [url]
   (let [validator (UrlValidator.)]
     (.isValid validator url)))

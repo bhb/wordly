@@ -30,8 +30,7 @@
   [:tr
    (map (fn [x] [:td x]) xs)])
 
-;; TODO - rename this 'top-words'
-(defn frequencies-table [frequencies]
+(defn top-words-table [frequencies]
   [:table.table
    [:tr
     [:th "Word"]
@@ -84,7 +83,7 @@
 (defn show-word-count-template [url]
   (let [top-words (memoize-top-words url)]
     (list [:h3 "Words at " url]
-          (frequencies-table top-words))))
+          (top-words-table top-words))))
 
 (defn new-word-count []
   (layout/common
