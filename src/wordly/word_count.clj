@@ -21,7 +21,7 @@
 ;; Note: only works for ASCII words
 (defn text->words [text]
   (->> text
-       (re-seq #"\w+")
+       (re-seq #"[A-Za-z]+")
        (map string/lower-case)))
 
 (defn all-text [resource]

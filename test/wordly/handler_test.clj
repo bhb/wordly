@@ -13,7 +13,7 @@
   (testing "main route"
     (let [response (app (mock/request :get "/"))]
       (is (= (:status response) 200))
-      (is (contains-str? (:body response) "Count words at a URL"))))
+      (is (contains-str? (:body response) "Count words at new URL"))))
 
   (testing "valid URL"
     (let [response (app (mock/request :post "/word-counts?url=http://example.com"))]

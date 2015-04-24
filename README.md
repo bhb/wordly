@@ -2,6 +2,8 @@
 
 Counting the visibible words on websites since 2015.
 
+**IMPORTANT** : The data storage is currently in-memory, so if you restart the server, you will lose all cached counts.
+
 ## Prerequisites
 
 Install Homebrew:

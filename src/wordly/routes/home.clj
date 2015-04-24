@@ -54,7 +54,7 @@
 
 (defn home []
   (layout/common [:a {:href "/word-counts/new"}
-                  "Count words at a URL"
+                  "Count words at new URL"
                   ]
                  (urls-table (storage/all STORE))
                  ))
@@ -83,7 +83,7 @@
 
 (defn show-word-count-template [url]
   (let [top-words (memoize-top-words url)]
-    (list [:h3 "Words for " url]
+    (list [:h3 "Words at " url]
           (frequencies-table top-words))))
 
 (defn new-word-count []
