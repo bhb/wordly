@@ -4,19 +4,24 @@
 (ns wordly.storage
   (:require [clojure.set :as set]))
 
-(def store (atom {}))
-
-(defn has-key? [url]
+(defn has-key? [store url]
   (contains? @store url))
 
-(defn set [url data]
+(defn set [store url data]
   (swap! store assoc url data))
 
-(defn get [url]
+(defn get [store url]
   (clojure.core/get @store url))
 
-(defn all []
+(defn all [store]
   (vec @store))
 
-(defn init []
-  {})
+(defn init [store]
+  (reset! store {})
+  store
+  )
+
+(defn fetch-memoized [store key value-fn]
+  (when (not (has-key? store key))
+    (set store key (value-fn)))
+  (get store key))

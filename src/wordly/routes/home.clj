@@ -56,7 +56,7 @@
   (layout/common [:a {:href "/word-counts/new"}
                   "Count words at a URL"
                   ]
-                 (urls-table (storage/all))
+                 (urls-table (storage/all STORE))
                  ))
 
 (defn render-errors [errors]
@@ -76,11 +76,10 @@
     [:input {:type "submit" :value "Submit"}]
     ]))
 
-;; TODO - move to storage
 (defn memoize-top-words [url]
-  (when (not (storage/has-key? url))
-    (storage/set url (wc/top-words-from-url url)))
-  (storage/get url))
+  (storage/fetch-memoized STORE
+                          url
+                          #(wc/top-words-from-url url)))
 
 (defn show-word-count-template [url]
   (let [top-words (memoize-top-words url)]
