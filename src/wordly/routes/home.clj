@@ -90,6 +90,13 @@
   (layout/common
    (new-word-count-template {})))
 
+(defn show-word-count [request]
+  (layout/common
+   (let [url (get-in request [:params :url])]
+         (if (storage/get STORE url)
+           (show-word-count-template url)
+           [:h1 "URL NOT FOUND"]))))
+
 (defn create-word-count [request]
   (layout/common
    (let [url (get-in request [:params :url])
@@ -101,7 +108,7 @@
 (defroutes home-routes
   (GET "/" [] (home))
   (GET "/word-counts/new" [] (new-word-count))
-  (GET "/word-counts" request (create-word-count request)) ;; TODO - replace with /word-counts/id
+  (GET "/word-counts" request (show-word-count request))
   (POST "/word-counts" request (create-word-count request)))
 
 (defn init []
