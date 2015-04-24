@@ -3,28 +3,59 @@
             [wordly.word-count :as wc]
             [wordly.storage :as storage]
             [wordly.validation :as validation]
-            [wordly.views.layout :as layout]))
+            [wordly.views.layout :as layout])
+  (:import [java.net URLEncoder])
+  )
+
+(defn url-encode [str]
+  (URLEncoder/encode str "UTF-8"))
+
+(defn details-link [url]
+  [:a
+   {:href (str "/word-counts?url=" (url-encode url)) }
+   "Details"])
+
+(defn row-data [[url frequencies]]
+  (let [[top-word occurences] (first frequencies)]
+    [
+     url
+     top-word
+     occurences
+     (details-link url)
+     ]))
+
+(defn row [xs]
+  [:tr
+   (map (fn [x] [:td x]) xs)])
+
+;; TODO - rename this 'top-words'
+(defn frequencies-table [frequencies]
+  [:table
+   [:tr
+    [:th "Word"]
+    [:th "Occurences"]
+    ]
+   (map row frequencies)
+   ])
+
+(defn urls-table [urls-and-frequencies]
+  [:table
+   [:tr
+    [:th "URL"]
+    [:th "Most common word"]
+    [:th "Occurences"]
+    [:th "Details"]
+    (->> urls-and-frequencies
+        (map row-data)
+        (map row))
+    ]])
 
 (defn home []
   (layout/common [:a {:href "/word-counts/new"}
                   "Count words at a URL"
                   ]
+                 (urls-table (storage/all))
                  ))
-
-(defn row [pair]
-  (let [[word count] pair]
-    [:tr
-     [:td word]
-     [:td count]
-     ]))
-
-(defn table [frequencies]
-  [:table
-   [:tr
-    [:th "Word"]
-    [:th "Occurences"]]
-   (map row frequencies)
-   ])
 
 (defn render-errors [errors]
   (when (not (empty? errors))
@@ -43,11 +74,16 @@
     [:input {:type "submit" :value "Submit"}]
     ]))
 
+;; TODO - move to storage
+(defn memoize-top-words [url]
+  (when (not (storage/has-key? url))
+    (storage/set url (wc/top-words url)))
+  (storage/get url))
+
 (defn show-word-count-template [url]
-  (let [top-words (or (get storage/get url)
-                      (wc/top-words url))]
+  (let [top-words (memoize-top-words url)]
     (list [:h1 "Words for " url]
-          (table top-words))))
+          (frequencies-table top-words))))
 
 (defn new-word-count []
   (layout/common
