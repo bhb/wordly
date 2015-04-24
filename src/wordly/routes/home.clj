@@ -77,7 +77,7 @@
 ;; TODO - move to storage
 (defn memoize-top-words [url]
   (when (not (storage/has-key? url))
-    (storage/set url (wc/top-words url)))
+    (storage/set url (wc/top-words-from-url url)))
   (storage/get url))
 
 (defn show-word-count-template [url]

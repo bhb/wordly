@@ -3,8 +3,6 @@
             [clojure.string  :as string]
             [net.cgrand.enlive-html :as enlive]))
 
-(def sample-html (client/get "http://example.com/"))
-
 ;; Stolen with minor modifications from Enlive
 (defn text
   "Returns the text value of a node."
@@ -20,30 +18,43 @@
   [nodes]
     (map text nodes))
 
-;; NOTES:
-;; (html-resource (java.io.StringReader. "<html><body><h1></h1></body></html>"))
+(defn text->words [text]
+  (->> (string/split text #"\s+")
+       (remove string/blank?)
+       (map string/lower-case)))
 
-(defn top-words [url]
-  (let [str (-> url
-                java.net.URL.
-                enlive/html-resource
-                (enlive/select [:body])
-                (enlive/transform [:img] nil)
-                (enlive/transform [:script] nil)
-                (enlive/transform [:style] nil)
-                texts
-                first
-                )
-        words (as-> str %
-               (string/split % #"\s+")
-               (remove string/blank? %)
-               (map string/lower-case %)
-               (frequencies %)
-               (sort-by second %)
-               (reverse %)
-               (take 10 %)
-                      )
-        ]
-    words
-      ;;(string/split #"\w")
-    ))
+(defn all-text [resource]
+  (-> resource
+      (enlive/select [:body])
+      (enlive/transform [:img] nil)
+      (enlive/transform [:script] nil)
+      (enlive/transform [:style] nil)
+      texts
+      first))
+
+(defn sort-fn [[word occurrences]]
+  [
+   (* -1
+      occurrences ) ;; First, sort by highest number of occurances
+   word             ;; then, sort alphabetically by word
+   ]
+  )
+
+;; TODO - generatively test this
+(defn top-words-from-str [str]
+  (->> str
+       text->words
+       frequencies ;; generate pairs like ["dog" 2]
+       (sort-by sort-fn)
+       (take 10)))
+
+(defn top-words [resource]
+  (->> resource
+      all-text
+      top-words-from-str))
+
+(defn top-words-from-url [url]
+  (-> url
+      java.net.URL.
+      enlive/html-resource
+      top-words))
