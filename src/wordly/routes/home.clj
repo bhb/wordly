@@ -32,7 +32,7 @@
 
 ;; TODO - rename this 'top-words'
 (defn frequencies-table [frequencies]
-  [:table
+  [:table.table
    [:tr
     [:th "Word"]
     [:th "Occurences"]
@@ -41,7 +41,7 @@
    ])
 
 (defn urls-table [urls-and-frequencies]
-  [:table
+  [:table.table
    [:tr
     [:th "URL"]
     [:th "Most common word"]
