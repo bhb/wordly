@@ -7,5 +7,7 @@
      [:title "Welcome to wordly"]
      (include-css "/css/screen.css")]
     [:body
-     [:h1 "Wordly"]
+     [:h1
+      [:a {:href "/"}
+       "Wordly"]]
      body]))
