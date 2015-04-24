@@ -48,8 +48,9 @@
     [:th "Occurences"]
     [:th "Details"]
     (->> urls-and-frequencies
-        (map row-data)
-        (map row))
+         sort
+         (map row-data)
+         (map row))
     ]])
 
 (defn home []
