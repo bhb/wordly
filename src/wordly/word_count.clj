@@ -33,10 +33,10 @@
       texts
       first))
 
-(defn sort-fn [[word occurrences]]
+(defn occurences-then-word [[word occurrences]]
   [
    (* -1
-      occurrences ) ;; First, sort by highest number of occurances
+      occurrences ) ;; First, sort by highest number of occurrences
    word             ;; then, sort alphabetically by word
    ]
   )
@@ -44,14 +44,14 @@
 (defn top-words-from-str [str]
   (->> str
        text->words
-       frequencies ;; generate pairs like ["dog" 2]
-       (sort-by sort-fn)
+       frequencies ;; generate an array like [["dog" 2] ["cat" 1]]
+       (sort-by occurences-then-word)
        (take 10)))
 
 (defn top-words [resource]
   (->> resource
-      all-text
-      top-words-from-str))
+       all-text
+       top-words-from-str))
 
 (defn top-words-from-url [url]
   (-> url

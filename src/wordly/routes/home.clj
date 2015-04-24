@@ -17,8 +17,9 @@
    {:href (str "/word-counts?url=" (url-encode url)) }
    "Details"])
 
-(defn row-data [[url frequencies]]
-  (let [[top-word occurences] (first frequencies)]
+(defn row-data [data]
+  (let [[url frequencies] data
+        [top-word occurences] (first frequencies)]
     [
      url
      top-word
@@ -52,7 +53,8 @@
     ]])
 
 (defn home []
-  (layout/common [:a {:href "/word-counts/new"}
+  (layout/common [:a
+                  {:href "/word-counts/new"}
                   "Count words at new URL"
                   ]
                  (urls-table (storage/all STORE))
@@ -94,7 +96,7 @@
    (let [url (get-in request [:params :url])]
          (if (storage/get STORE url)
            (show-word-count-template url)
-           [:h1 "URL NOT FOUND"]))))
+           [:h1 "URL not found"]))))
 
 (defn create-word-count [request]
   (layout/common

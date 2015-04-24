@@ -39,11 +39,11 @@
   (is (= [["hello" 1] ["world" 1]] (top-words-from-str "Hello world!"))))
 
 (defspec check-top-words-from-str
-  100 ;; the number of iterations for test.check to test
+  1000 ;; the number of iterations for test.check to test
   (prop/for-all [str gen/string-ascii]
-                (let [top-words (top-words-from-str str)]
-                  (is (<= 0 (count top-words) 10))
-                  (let [occurrences (or (vals top-words) [])]
-                    (is (=
-                         (reverse (sort occurrences))
-                         occurrences))))))
+                (let [top-words (top-words-from-str str)
+                      occurrences (or (vals top-words) [])]
+                  (and (<= 0 (count top-words) 10)
+                       (=
+                        (reverse (sort occurrences))
+                        occurrences)))))

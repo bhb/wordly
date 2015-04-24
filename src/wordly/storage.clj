@@ -2,7 +2,6 @@
 ;; we just keep the count data in memory.
 
 (ns wordly.storage
-  (:require [clojure.set :as set])
   (:refer-clojure :exclude [get set]))
 
 (defn has-key? [store url]
