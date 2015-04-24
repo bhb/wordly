@@ -5,9 +5,11 @@
   (html5
     [:head
      [:title "Welcome to wordly"]
-     (include-css "/css/screen.css")]
+     (include-css "/css/bootstrap.css")]
     [:body
-     [:h1
-      [:a {:href "/"}
-       "Wordly"]]
-     body]))
+     [:div.container
+      [:h1
+       [:a {:href "/"}
+        "Wordly"]]
+      body]]
+    ))

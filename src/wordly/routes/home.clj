@@ -82,7 +82,7 @@
 
 (defn show-word-count-template [url]
   (let [top-words (memoize-top-words url)]
-    (list [:h1 "Words for " url]
+    (list [:h3 "Words for " url]
           (frequencies-table top-words))))
 
 (defn new-word-count []
