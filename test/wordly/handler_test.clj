@@ -6,6 +6,9 @@
 (defn contains-str? [^String haystack ^String needle]
   (.contains haystack needle))
 
+;; NOTE - these are integration tests and do actually access
+;; external URLs. In a real system, I'd try probably store the
+;; responses locally similar to how Ruby's VCR library works.
 (deftest test-app
   (testing "main route"
     (let [response (app (mock/request :get "/"))]

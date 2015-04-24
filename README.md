@@ -1,6 +1,6 @@
 # wordly
 
-FIXME
+Counting the visibible words on websites since 2015.
 
 ## Prerequisites
 
@@ -17,6 +17,10 @@ Install Lein
 To start a web server for the application, run:
 
     lein ring server
+    
+To run the tests
+
+    lein test
 
 ## License
 
